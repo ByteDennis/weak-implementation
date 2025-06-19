@@ -1,0 +1,38 @@
+{
+    "sync-rsync.remote": "xie:/home/dennisl/remote/Weakly/",
+    "sync-rsync.exclude": [
+        ".git",
+        ".vscode",
+        ".venv",
+        "__pycache__",
+        "*.pyc",
+        ".DS_Store",
+        "uv.lock",
+        ".ruff_cache",
+        "*.pkl",
+        "assets/",
+        "results/*.mat"
+    ],
+    "sync-rsync.flags": "rlptzv",
+    "sync-rsync.delete": true,
+    "sync-rsync.onSaveIndividual": true,
+    "debug.showInStatusBar": "never",
+    "debug.toolBarLocation": "docked",
+    "python.analysis.extraPaths": [
+        "/Users/dennis/Documents/Jobs/Weakly"
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        ".venv": true
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true,
+        "source": true
+    }
+}
