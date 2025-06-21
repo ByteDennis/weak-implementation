@@ -1,7 +1,15 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
 [project]
 name = "weakly"
 version = "0.1.0"
-description = "Add your description here"
+description = "A framework for testing weakly supervision learning"
+authors = [
+    {name = "Xiang Liu", email = "dennisl@udel.edu"}
+]
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -9,6 +17,7 @@ dependencies = [
     "flyingsquid>=0.0.0a0",
     "hyperlm>=0.0.5",
     "ipykernel>=6.29.5",
+    "loguru>=0.7.3",
     "matplotlib>=3.10.3",
     "mosek>=11.0.22",
     "nltk>=3.9.1",
@@ -16,6 +25,7 @@ dependencies = [
     "numbskull==0.1.1",
     "pgmpy==0.1.26",
     "pip>=25.1.1",
+    "pytest>=8.4.1",
     "ruff>=0.11.13",
     "scikit-learn>=1.7.0",
     "scipy>=1.15.3",
@@ -30,4 +40,31 @@ dependencies = [
     "tqdm>=4.67.1",
     "transformers>=4.52.4",
     "universal-pathlib>=0.2.6",
+    "whenever>=0.8.5",
 ]
+
+[project.optional-dependencies]
+dev = [
+    "black>=22.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/ByteDennis/weak-implementation"
+Repository = "https://github.com/ByteDennis/weak-implementation"
+Issues = "https://github.com/ByteDennis/weak-implementation"
+
+[tool.hatch.build.targets.wheel]
+packages = ["weakly"]
+
+[tool.hatch.build]
+include = [
+  "weakly/**.py",           # include all Python files in package
+  "README.md",              # include your README
+]
+exclude = [
+  "*.log",                  # exclude any logs
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']

@@ -11,7 +11,8 @@
         ".ruff_cache",
         "*.pkl",
         "assets/",
-        "results/*.mat"
+        "results/*.mat",
+        "source/"
     ],
     "sync-rsync.flags": "rlptzv",
     "sync-rsync.delete": true,
@@ -34,5 +35,6 @@
         "**/bower_components": true,
         "**/*.code-search": true,
         "source": true
-    }
+    },
+    "editor.formatOnPaste": true,
 }
