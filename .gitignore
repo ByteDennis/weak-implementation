@@ -1,0 +1,18 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.env
+.python-version
+uv.lock
+
+# Existing repositories
+an2024convergence
+guan2024weshap
+old_weakly_implement
