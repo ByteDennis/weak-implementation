@@ -1,0 +1,47 @@
+{
+    "sync-rsync.remote": "xie:/home/dennisl/remote/SkWeak/",
+    "sync-rsync.exclude": [
+        ".git",
+        ".vscode",
+        ".venv",
+        "__pycache__",
+        "*.pyc",
+        ".DS_Store",
+        "uv.lock",
+        ".ruff_cache",
+        "*.pkl",
+        "assets/",
+        "results/*.mat",
+        "source/",
+        "**/datasets/"
+    ],
+    "sync-rsync.flags": "rlptzv",
+    "sync-rsync.delete": true,
+    "sync-rsync.onSaveIndividual": true,
+    "debug.showInStatusBar": "never",
+    // "debug.hideSlowPreLaunchWarning": true,
+    "debug.toolBarLocation": "docked",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        ".venv": true
+    },
+    "python.analysis.extraPaths": [
+        "guan2024weshap",
+    ],
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true,
+        "source": true
+    },
+    "editor.formatOnPaste": true,
+    "python.testing.pytestArgs": [
+        "tests", "-s"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+}

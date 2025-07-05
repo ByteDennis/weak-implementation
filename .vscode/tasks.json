@@ -1,0 +1,174 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "group": {
+    "kind": "build",
+    "isDefault": true
+  },
+  "inputs": [
+    {
+      "id": "scriptArgs",
+      "description": "Python Arguments:",
+      "default": "",
+      "type": "promptString"
+    },
+    {
+      "id": "remoteCommand",
+      "description": "Enter command to run on remote server:",
+      "default": "uv add datasets",
+      "type": "promptString"
+    },
+    {
+      "id": "remotePytest",
+      "description": "Enter command to run tests on remote server:",
+      "default": "pytest",
+      "type": "promptString"
+    },
+    {
+      "id": "environment",
+      "description": "Choose environment:",
+      "type": "pickString",
+      "options": ["dev", "staging", "prod"]
+    },
+    {
+      "id": "enableDebug",
+      "description": "Start debug:",
+      "default": "false",
+      "type": "pickString",
+      "options": ["true", "false"]
+    },
+    {
+      "id": "port",
+      "description": "Port number:",
+      "default": "5680",
+      "type": "promptString"
+    },
+    {
+      "id": "runRemoteCommand",
+      "description": "Enter command to run on remote:",
+      "type": "pickString",
+      "options": [
+        "cd $HOME/remote/SkWeak/ && ls -la",
+        "cd $HOME/remote/SkWeak/ && uv sync",
+        "cd $HOME/remote/SkWeak/ && lsof -ti :5680 | xargs kill -9 2>/dev/null || echo 'No process found on port 5680'",
+        "cd $HOME/remote/SkWeak/ && ss -tulpn | grep 5680",
+        "pkill -f debugpy || true"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "label": "Sync to Remote",
+      "command": "${command:sync-rsync.syncUp}",
+      "problemMatcher": []
+    },
+    {
+      "label": "Sync to Local",
+      "command": "${command:sync-rsync.syncDown}",
+      "problemMatcher": []
+    },
+    {
+      "label": "Remote running test",
+      "type": "shell",
+      "command": "ssh",
+      "dependsOn": "Sync to Remote",
+      "args": [
+        "xie",
+        "cd $HOME/remote/SkWeak/ && uv run ${input:remotePytest}"
+      ],
+      "group": "test"
+    },
+    {
+      "label": "SSH Remote Server",
+      "type": "shell",
+      "command": "ssh",
+      "args": ["xie", "-t", "cd $HOME/remote/SkWeak/ && bash"],
+      "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Selected Remote Command",
+      "type": "shell",
+      "command": "ssh",
+      "args": ["xie", "${input:runRemoteCommand}"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Python Remote",
+      "type": "shell",
+      "command": "ssh",
+      "args": [
+        "xie",
+        "cd $HOME/remote/SkWeak/ && uv run --env-file .env python ${relativeFile} ${input:scriptArgs}"
+      ],
+      "dependsOn": "Sync to Remote",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": ["$python"]
+    },
+    {
+      "label": "Debug Python Remote (portforward)",
+      "type": "shell",
+      "command": "ssh",
+      "dependsOn": ["Sync to Remote"],
+      "args": [
+        "-L",
+        "5680:localhost:5680",
+        "xie",
+        "cd $HOME/remote/SkWeak/ && uv run --env-file .env python -Xfrozen_modules=off -m debugpy --listen localhost:5680 --wait-for-client ${relativeFile} ${input:scriptArgs}"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Remote Command",
+      "type": "shell",
+      "command": "ssh",
+      "args": ["xie", "cd $HOME/remote/SkWeak && ${input:remoteCommand}"],
+      "group": "build",
+      "dependsOn": ["Sync to Remote"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Remote Command and Sync Local",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Sync to Remote", "Run Remote Command", "Sync to Local"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    }
+  ]
+}
