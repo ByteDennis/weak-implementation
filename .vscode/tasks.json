@@ -55,6 +55,16 @@
         "cd $HOME/remote/SkWeak/ && ss -tulpn | grep 5680",
         "pkill -f debugpy || true"
       ]
+    },
+    {
+      "id": "runUvSync",
+      "description": "Run uv sync before command?",
+      "type": "pickString",
+      "options": [
+        { "label": "No - Skip uv sync", "value": "" },
+        { "label": "Yes - Run uv sync", "value": "uv sync &&" }
+      ],
+      "default": ""
     }
   ],
   "tasks": [
@@ -75,7 +85,7 @@
       "dependsOn": "Sync to Remote",
       "args": [
         "xie",
-        "cd $HOME/remote/SkWeak/ && uv run ${input:remotePytest}"
+        "cd $HOME/remote/SkWeak/ && ${input:runUvSync} uv run ${input:remotePytest}"
       ],
       "group": "test"
     },

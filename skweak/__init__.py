@@ -12,20 +12,28 @@ skweak/
 from functools import lru_cache
 from . import dataset
 from . import evaluation
-from . import pipelines
+from . import experiments
+from .constant import set_pdb
 
 @lru_cache(maxsize=1)
 def _lazy_load_all_models():
-    from .core.registry import _ensure_models_loaded
+    from .core.patch import _ensure_models_loaded
     _ensure_models_loaded()
 
-# _lazy_load_all_models()
+_lazy_load_all_models()
 
 
 __version__ = "0.0.1"
 
 
 __all__ = [
-    'dataset', 'evaluation', 'pipelines', 'transform',
-    'core', 'utils', 'labelmodel', 'endmodel'
+    "dataset",
+    "evaluation",
+    "experiments",
+    "transform",
+    "core",
+    "utils",
+    "labelmodel",
+    "endmodel",
+    "set_pdb",
 ]

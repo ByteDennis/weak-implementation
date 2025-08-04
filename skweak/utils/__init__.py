@@ -3,5 +3,6 @@
 print("Loading skweak/utils.py")
 
 from ..constant import *
-from ..core.registry import *
 from .data_utils import *  
+from .preprocess import *
+from .validation import *

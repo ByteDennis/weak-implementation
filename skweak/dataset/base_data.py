@@ -16,6 +16,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split as sklearn_train_test_split, KFold
 from sklearn.metrics import silhouette_score as sklearn_silhouette_score
 from snorkel.labeling import LFAnalysis
+from wrench.dataset import BaseDataset
 
 from ..constant import TaskType, DataType, DATA_SET, get_arg_list, fetch_first
 from ..logging import logger
@@ -62,7 +63,7 @@ def array_to_marginals(y, cardinality=None):
     marginal = sorted_counts / sum(sorted_counts)
     return marginal
         
-class WeakDataBase(ABC):
+class WeakDataBase(BaseDataset):
     """
     Abstract base class for weak supervision datasets
 
@@ -172,7 +173,7 @@ class WeakDataBase(ABC):
         return 0
 
     @property
-    def n_classes(self) -> int:
+    def n_class(self) -> int:
         """Return number of classes"""
         if self.true_labels is not None:
             return len(np.unique(self.true_labels[self.true_labels >= 0]))
@@ -558,6 +559,6 @@ class WeakDataBase(ABC):
         parts = [f"n_samples={self.n_samples}"]
         if self.n_features > 0:
             parts.append(f"n_features={self.n_features}")
-        parts.extend([f"n_lfs={self.n_lfs}", f"n_classes={self.n_classes}"])
+        parts.extend([f"n_lfs={self.n_lfs}", f"n_classes={self.n_class}"])
         return f"Sample{self.__class__.__name__}({', '.join(parts)})"
         

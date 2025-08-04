@@ -125,6 +125,8 @@ class WeakTextData(WeakDataBase):
         self.features = features.cpu().numpy()
         return self.features
     
+    def extract_feature_(self, extract_fn, return_extractor, **kwargs):
+        pass
     
 
 class WeakTextRelationData(WeakTextData):

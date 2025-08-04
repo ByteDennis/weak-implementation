@@ -24,3 +24,6 @@ class WeakData(WeakDataBase):
             inputs['true_labels'].append(_sample.label)
             inputs['metadata'].append({})
         return cls( **inputs )
+    
+    def extract_feature_(self, extract_fn, return_extractor, **kwargs):
+        pass

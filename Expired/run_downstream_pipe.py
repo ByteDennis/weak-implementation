@@ -1,5 +1,5 @@
 from skweak.utils import list_available_models, make_weak_classification
-from skweak.pipelines import EndModelExperiment 
+from skweak.experiments import EndModelExperiment 
 
 print(list_available_models())
 

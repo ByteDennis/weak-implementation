@@ -41,3 +41,6 @@ class WeakTabularData(WeakDataBase):
     def scale_numerical(self, scaler: Any = None) -> "WeakTabularData":
         """Scale numerical features"""
         pass
+
+    def extract_feature_(self, extract_fn, return_extractor, **kwargs):
+        pass

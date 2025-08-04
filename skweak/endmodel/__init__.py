@@ -1,4 +1,7 @@
-from .linear import LinearModel
-from .neural import MLPModel
+# ruff: noqa: E402
+print("Loading skweak/endmodel.py")
 
-__all__ = ["LinearModel", "MLPModel"]
+
+from .linear_model import LogRegModel
+
+__all__ = ["LogRegModel"]

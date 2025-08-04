@@ -1,10 +1,6 @@
 import numpy as np
 from sklearn.datasets import make_classification
-from upath import UPath
-
-from ..core.base import WeakEstimator
 from ..constant import DATA_HOME
-from .validation import check_weak_labels
 from .io_utils import cache
 
 
@@ -15,7 +11,7 @@ def download_data(force_restart = False):
 
 download_data()
 
-class WeakLabelGenerator(WeakEstimator):
+class WeakLabelGenerator:
     """Generate synthetic weak labels"""
 
     def __init__(

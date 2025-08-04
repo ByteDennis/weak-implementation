@@ -10,3 +10,8 @@ wheels/
 .venv
 docs
 wrench
+files
+examples
+notebooks
+skweak
+weaklearn

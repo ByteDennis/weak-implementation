@@ -4,27 +4,43 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
-            "name": "Python: Current File",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": false
+      {
+        "name": "Python: Current File",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${file}",
+        "console": "integratedTerminal",
+        "justMyCode": false
+      },
+      {
+        "name": "Remote Python: Current File (portforward)",
+        "type": "debugpy",
+        "request": "attach",
+        "connect": { "host": "localhost", "port": 5680 },
+        "pathMappings": [
+          {
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/home/dennisl/remote/SkWeak/"
+          }
+        ],
+        "justMyCode": false,
+        "preLaunchTask": "Debug Python Remote (portforward)"
+      },
+      {
+        "name": "Python: Remote Attach (Xie)",
+        "type": "debugpy",
+        "request": "attach",
+        "connect": {
+          "host": "128.175.21.77",
+          "port": 5680
         },
-        {
-            "name": "Remote Python: Current File (portforward)",
-            "type": "debugpy",
-            "request": "attach",
-            "connect": { "host": "localhost", "port": 5680 },
-            "pathMappings": [
-                {
-                    "localRoot": "${workspaceFolder}",
-                    "remoteRoot": "/home/dennisl/remote/SkWeak/"
-                }
-            ],
-            "justMyCode": false,
-            "preLaunchTask": "Debug Python Remote (portforward)"
-        }
+        "pathMappings": [
+          {
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/home/dennisl/remote/SkWeak/"
+          }
+        ],
+        "justMyCode": false
+      }
     ],
 }

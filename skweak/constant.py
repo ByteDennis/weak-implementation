@@ -2,16 +2,19 @@
 import os
 import inspect
 import tomllib
+import subprocess
 
 from upath import UPath
 from enum import Enum
 from typing import List, Any, Dict
+from .logging import logger
 
 assert "DATA" in os.environ, (
     "Please set environment variable 'DATA' (e.g., export DATA=/path/to/data)"
 )
 
-
+_DEBUG = False
+ABSTAIN = -1
 TIME_FORMAT = "%Y%m%d %H:%M:%S"
 DATA_HOME   = UPath(os.environ['DATA'])
 
@@ -148,3 +151,35 @@ def fetch_first(iterable):
         return next(iter(iterable))
     except (StopIteration, TypeError):
         return None
+
+
+def _kill_port_process(port):
+    result = subprocess.run(
+        f"lsof -ti:{port}", shell=True, capture_output=True, text=True
+    )
+    if result.stdout:
+        pids = result.stdout.strip().split("\n")
+        for pid in pids:
+            if pid:
+                subprocess.run(f"kill -9 {pid}", shell=True)
+                print(f"Killed process {pid} on port {port}")
+    
+def set_pdb(enable=True, port=5680, host="0.0.0.0", wait_for_attach=True):
+    import debugpy
+
+    global _DEBUG
+    if enable:
+        try:
+            if not _DEBUG:
+                _kill_port_process(port)
+                debugpy.listen((host, port))
+                _DEBUG = True
+                print(f"Started debugpy listener on {host}:{port}")
+        except RuntimeError as e:
+            logger.error(f"debugpy RuntimeError: {e}")
+        except ImportError:
+            logger.error("debugpy not installed. Install with: pip install debugpy")
+        except Exception as e:
+            logger.error(f"Failed to enable debugging: {e}")
+        if wait_for_attach:
+            debugpy.wait_for_client()
